@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
+    
     
     <Playlist/>
   </div>
@@ -20,12 +20,27 @@ export default {
 </script>
 
 <style>
+html {
+  min-height: 100%;;
+}
+body {
+
+  color: #fff;
+  background: linear-gradient(#191414, #242020 80%);
+  
+}
+
 #app {
+  
+  color: #fff;
+
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  text-align: left;
   color: #2c3e50;
-  margin-top: 60px;
+  
+
+
 }
 </style>
