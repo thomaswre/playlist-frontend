@@ -3,41 +3,39 @@
         <h1>Playlist Analyzer</h1>
         
         <p v-if="data.noauth"><span v-html="data.noauth"></span></p>
-        
-        
-
+    
         <form @submit.prevent="getPlaylist">
             <div id="form">
                 <input type="text" v-model.trim="searchURL" name="search" id="searchfield" placeholder="HTTP address to playlist">
             </div>
         </form>
 
-        <div id="trackitems">
-            <ul v-if="data.length">
-                <li id="trackcard" v-for="track in data" :key="track.track.id">
-                    <h3>{{track.track.artists[0].name}}</h3> 
-                    <h4>{{track.track.name}}</h4>
-                    <img v-bind:src="'' + track.track.album.images[0].url" id="albumcover" height="190" width="190"/>
+        
+        <ul v-if="data.length">
+            <li id="trackcard" v-for="track in data" :key="track.track.id">
+                <h3>{{track.track.artists[0].name}}</h3> 
+                <h4>{{track.track.name}}</h4>
+                <img v-bind:src="'' + track.track.album.images[0].url" class="albumcover" height="190" width="190"/>
 
-                    <transition-group tag="div" name="fillWidth" appear>
-                        <div class="poplabel" key="1">Popularity: {{track.track.popularity}}%</div>
-                        <div class="feature pop" key="2" v-bind:style="{ width: track.track.popularity + '%'}"></div>
+                <transition-group tag="div" name="fillWidth" appear>
+                    <div class="poplabel" key="1">Popularity: {{track.track.popularity}}%</div>
+                    <div class="feature pop" key="2" v-bind:style="{ width: track.track.popularity + '%'}"></div>
 
-                        <div key="3">Danceability: {{(track.features.danceability).toFixed(2)*100}}%</div>
-                        <div key="4" class="feature dance" v-bind:style="{ width: track.features.danceability*100 + '%'}"></div>
+                    <div key="3">Danceability: {{Math.round(track.features.danceability*100)}}%</div>
+                    <div key="4" class="feature dance" v-bind:style="{ width: track.features.danceability*100 + '%'}"></div>
 
-                        <div key="5">Energy: {{(track.features.energy).toFixed(2)*100}}%</div>
-                        <div key="6" class="feature energy" v-bind:style="{ width: track.features.energy*100 + '%'}"></div>
+                    <div key="5">Energy: {{Math.round(track.features.energy*100)}}%</div>
+                    <div key="6" class="feature energy" v-bind:style="{ width: track.features.energy*100 + '%'}"></div>
                         
-                        <div key="7">Valence: {{(track.features.valence).toFixed(2)*100}}%</div>
-                        <div key="8" class="feature valence" v-bind:style="{ width: (track.features.valence).toFixed(1)*100 + '%'}"></div>
+                    <div key="7">Valence: {{Math.round(track.features.valence*100)}}%</div>
+                    <div key="8" class="feature valence" v-bind:style="{ width: (track.features.valence).toFixed(1)*100 + '%'}"></div>
 
                         
-                    </transition-group>
-                    <span class="tempo">BPM: {{(track.features.tempo).toFixed(0)}}</span>
-                </li>
-            </ul>
-        </div>
+                </transition-group>
+                <span class="tempo">BPM: {{(track.features.tempo).toFixed(0)}}</span>
+            </li>
+        </ul>
+        
     </div>
 
 </template>
@@ -81,17 +79,13 @@ export default {
         })
         .catch(error => console.error('axios error: ' + error))
     }
-    
-    
   
   }
 }
 </script>
 
 <style>
-body {
-    color: #fff;
-}
+
 h1 {
     text-align: center;
     color: #1DB954;
@@ -100,12 +94,6 @@ h1 {
 }
 p {
     color: #fff;
-    
-}
-
-#Playlist {
-    
-    
     
 }
 
@@ -119,8 +107,6 @@ p {
 #searchfield {
     width: 100%;
 }
-
-
 
 ul {
     display: flex;
@@ -157,7 +143,7 @@ h4 {
 }
 
 
-#albumcover {
+.albumcover {
     margin-bottom: 0px;
     padding-bottom: 0px;
 
@@ -173,12 +159,12 @@ h4 {
     
 }
 
-/*
-li div:nth-child(2n) {
+
+li div div:nth-child(odd) {
 
     background-color: #3b4c59;
 }
-*/
+
 
 .poplabel {
     margin-top: 0rem;
@@ -217,7 +203,7 @@ li div:nth-child(2n) {
 
 
 .tempo {
-    background-color: red;
+    background-color: #005499;
     position: absolute;
     top: 0px;
     right: 0px;
@@ -228,7 +214,7 @@ li div:nth-child(2n) {
     /* animation: pulse 1s linear infinite; */
     font-weight: bold;
     border-radius: 15px;
-    border: 1px solid red;
+    
 
 
 }
