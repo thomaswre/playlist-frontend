@@ -21,7 +21,7 @@ export default {
 
 <style>
 html {
-  min-height: 100%;;
+  min-height: 100%;
 }
 body {
 
@@ -38,7 +38,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: left;
-  color: #2c3e50;
+  
   
 
 
