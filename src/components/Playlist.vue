@@ -12,6 +12,7 @@
 
         
         <ul v-if="data.length">
+            <p>{{getAverage(this.features.popularity)}}</p>
             <li class="trackcard" v-for="track in data" :key="track.track.id">
                 <h3>{{track.track.artists[0].name}}</h3> 
                 <h4>{{track.track.name}}</h4>
@@ -50,6 +51,7 @@ export default {
     return {
       test: 'hello test',
       count: 0,
+      features: {},
       data: {},
       searchURL: '',
       noauth: ''
@@ -63,8 +65,48 @@ export default {
   
   
   methods: {
-    getPlaylist: function () {
+
+    extractFeatures: function (){
+        console.log('Inside Features function');
         
+        // Sets a few propertys with the features and empty arrays as values.
+        this.features = {
+          popularity: [],
+          danceability: [],
+          energy: [],
+          valence: [],
+          tempo: []
+        }
+
+        // Loops through each track, picks out the features and populates the empty arrays in this.features
+        for (let track of this.data) {
+
+            this.features.popularity.push(track.track.popularity);
+            this.features.danceability.push(track.features.danceability);
+            this.features.energy.push(track.features.energy);
+            this.features.valence.push(track.features.valence);
+            this.features.tempo.push(track.features.tempo);
+
+        }
+
+        console.log(this.features);
+        
+
+    },
+
+    getAverage: function (array) {
+        
+        
+        //const total = numbers.reduce((acc, c) => acc + c);
+
+        const total = array.reduce((prevValue, currentValue) => 
+            prevValue + currentValue);
+        return total/array.length;
+        //console.log('Total: ' + total);
+
+    },
+
+    getPlaylist: function () {
         
         axios({
             method: 'post',
@@ -76,9 +118,17 @@ export default {
             console.log(response.status);
             console.log(response.data);
             this.data = response.data;
+            
+            // Extract all the features from each track into the features{} object.
+            // Each feature property holds an array with each track's feature data
+            
+            this.extractFeatures();
+
         })
+        
         .catch(error => console.error('axios error: ' + error))
     }
+
   
   }
 }
@@ -150,7 +200,7 @@ export default {
     h4 {
         width: 100%;
         text-align: center;
-        margin: 0.2rem 0rem;
+        margin: 0.2rem 0rem 0.3rem 0rem;
         font-size: 0.8rem;
         
     }
@@ -160,8 +210,8 @@ export default {
         margin-bottom: 0px;
         padding-bottom: 0px;
         
-        width: 35%;
-        margin-right: 3%;
+        width: 40%;
+        margin-right: 1rem;
 
     }
 
