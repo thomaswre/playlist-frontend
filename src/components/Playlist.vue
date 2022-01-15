@@ -2,40 +2,60 @@
     <div id="Playlist">
         <h1>Playlist Analyzer</h1>
         
-        <p v-if="data.noauth"><span v-html="data.noauth"></span></p>
+        <p v-if="data.noauth"><span v-html="data.noauth" id="noauth"></span></p>
     
         <form @submit.prevent="getPlaylist">
             <div id="form">
                 <input type="text" v-model.trim="searchURL" name="search" id="searchfield" placeholder="HTTP address to playlist">
             </div>
+
+            <p v-if="errors.length">
+                <ul>
+                    <li v-for="error in errors" :key="error" class="searchError">{{ error }}</li>
+                </ul>
+            </p>
+
+
         </form>
 
         
-        <ul v-if="data.length">
-            <p>{{getAverage(this.features.popularity)}}</p>
-            <li class="trackcard" v-for="track in data" :key="track.track.id">
-                <h3>{{track.track.artists[0].name}}</h3> 
-                <h4>{{track.track.name}}</h4>
-                <img v-bind:src="'' + track.track.album.images[0].url" class="albumcover"/>
 
-                <transition-group tag="div" name="fillWidth" class="featurewrapper" appear>
-                    <div class="poplabel" key="1">Popularity: {{track.track.popularity}}%</div>
-                    <div class="feature pop" key="2" v-bind:style="{ width: track.track.popularity + '%'}"></div>
+        <div v-if="data.length" id="data">
+            <div id="playliststats">
+                <h2>Track Averages</h2>
+                
+                <span>Popularity: {{Math.round(getAverage(this.features.popularity))}}%</span>
+                <span>Danceability: {{Math.round(getAverage(this.features.danceability)*100)}}%</span>
+                <span>Energy: {{Math.round(getAverage(this.features.energy)*100)}}%</span>
+                <span>Valence: {{Math.round(getAverage(this.features.valence)*100)}}%</span>
+                <span>BPM: {{Math.round(getAverage(this.features.tempo))}}</span>
+            </div>
+            
+            <ul>
+                <li class="trackcard" v-for="track in data" :key="track.track.id">
+                    <h3>{{track.track.artists[0].name}}</h3> 
+                    <h4>{{track.track.name}}</h4>
+                    <img v-bind:src="'' + track.track.album.images[0].url" class="albumcover"/>
 
-                    <div key="3">Danceability: {{Math.round(track.features.danceability*100)}}%</div>
-                    <div key="4" class="feature dance" v-bind:style="{ width: track.features.danceability*100 + '%'}"></div>
+                    <transition-group tag="div" name="fillWidth" class="featurewrapper" appear>
+                        <div class="poplabel" key="1">Popularity: {{track.track.popularity}}%</div>
+                        <div class="feature pop" key="2" v-bind:style="{ width: track.track.popularity + '%'}"></div>
 
-                    <div key="5">Energy: {{Math.round(track.features.energy*100)}}%</div>
-                    <div key="6" class="feature energy" v-bind:style="{ width: track.features.energy*100 + '%'}"></div>
+                        <div key="3">Danceability: {{Math.round(track.features.danceability*100)}}%</div>
+                        <div key="4" class="feature dance" v-bind:style="{ width: track.features.danceability*100 + '%'}"></div>
+
+                        <div key="5">Energy: {{Math.round(track.features.energy*100)}}%</div>
+                        <div key="6" class="feature energy" v-bind:style="{ width: track.features.energy*100 + '%'}"></div>
+                            
+                        <div key="7">Valence: {{Math.round(track.features.valence*100)}}%</div>
+                        <div key="8" class="feature valence" v-bind:style="{ width: (track.features.valence).toFixed(1)*100 + '%'}"></div>
+
                         
-                    <div key="7">Valence: {{Math.round(track.features.valence*100)}}%</div>
-                    <div key="8" class="feature valence" v-bind:style="{ width: (track.features.valence).toFixed(1)*100 + '%'}"></div>
-
-                    
-                </transition-group>
-                <span class="tempo">BPM: {{(track.features.tempo).toFixed(0)}}</span>
-            </li>
-        </ul>
+                    </transition-group>
+                    <span class="tempo">BPM: {{(track.features.tempo).toFixed(0)}}</span>
+                </li>
+            </ul>
+        </div>
         
     </div>
 
@@ -49,11 +69,11 @@ export default {
   name: 'Playlist',
   data: function () {
     return {
-      test: 'hello test',
+      errors: [],
       count: 0,
       features: {},
       data: {},
-      searchURL: '',
+      searchURL: null,
       noauth: ''
       
     }
@@ -96,7 +116,6 @@ export default {
 
     getAverage: function (array) {
         
-        
         //const total = numbers.reduce((acc, c) => acc + c);
 
         const total = array.reduce((prevValue, currentValue) => 
@@ -108,6 +127,13 @@ export default {
 
     getPlaylist: function () {
         
+        this.errors = [];
+        if (!this.searchURL) {
+
+            this.errors.push("Searchfield cannot be empty");
+            return true;
+        }
+
         axios({
             method: 'post',
             url: 'http://localhost:3000/search',
@@ -138,7 +164,15 @@ export default {
 
 @media (min-width: 320px) {
 
-   
+    #noauth {
+        font-size: 1.2rem
+    }
+
+    a {
+        font-size: 1.2rem;
+        color: #e11210;
+    
+    }
     
     h1 {
         text-align: center;
@@ -160,16 +194,45 @@ export default {
         
     }    
 
+    .searchError {
+        color: red;
+    }
+
     #searchfield {
         width: 100%;
     }
 
+    #data {
+        
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    
+    }
+    #playliststats {
+        margin-top: 2rem;
+        width: 80%;
+        text-align: center;
+    }
+
+    #playliststats span {
+        
+        margin-top: 0rem;
+        margin-bottom: 0rem;
+        margin-right: 1rem;
+        font-size: 1rem;
+    }
+
+    #playliststats h3 {
+        font-size: 1.3rem;
+    }
     ul {
+        width: 80%;
         display: flex;
         padding: 0px;
         margin: 0px;
-        
         justify-content: center;
+        
         flex-wrap: wrap;
         
 
@@ -185,7 +248,7 @@ export default {
         margin-right: 0rem;
         margin-top: 2rem;
         
-        width: 80%;
+        
         background-color: #28343d;
 
     }
@@ -297,17 +360,29 @@ export default {
 
     #searchfield {
         width: 100%;
+        height: 1rem;
+        font-size: 1rem;
     }
 
-    ul {
-        display: flex;
-        padding: 0px;
-        margin: 0px;
-        margin-left: auto;
-        margin-right: auto;
-        width: 70%;
-        flex-wrap: wrap;
+    #data {
         justify-content: center;
+    
+    }
+    #playliststats {
+        width: 70%;
+        
+    }
+
+    #playliststats span {
+        font-size: 1.2rem;
+    }
+    ul {
+        
+        padding: 0px;
+        
+        
+        width: 70%;
+        
 
     }
     .trackcard {    
