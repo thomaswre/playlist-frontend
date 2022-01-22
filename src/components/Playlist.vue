@@ -9,16 +9,17 @@
                 <input type="text" v-model.trim="searchURL" name="search" id="searchfield" placeholder="HTTP address to playlist">
             </div>
 
-            <p v-if="errors.length">
-                <ul>
-                    <li v-for="error in errors" :key="error" class="searchError">{{ error }}</li>
-                </ul>
-            </p>
-
-
         </form>
 
-        
+        <p v-if="errors.length">
+            <ul>
+                <li v-for="error in errors" :key="error" class="searchError">{{ error }}</li>
+            </ul>
+        </p>
+
+        <p v-if="data.failed">
+            <span v-html="data.failed" id="failed" class="searchError"></span>
+        </p>
 
         <div v-if="data.length" id="data">
             <div id="playliststats">
@@ -31,7 +32,7 @@
                 <span>BPM: {{Math.round(getAverage(this.features.tempo))}}</span>
             </div>
             
-            <ul>
+            <ul id="cards-view">
                 <li class="trackcard" v-for="track in data" :key="track.track.id">
                     <h3>{{track.track.artists[0].name}}</h3> 
                     <h4>{{track.track.name}}</h4>
@@ -74,7 +75,8 @@ export default {
       features: {},
       data: {},
       searchURL: null,
-      noauth: ''
+      noauth: '',
+      failed: null
       
     }
   },
@@ -130,9 +132,11 @@ export default {
         this.errors = [];
         if (!this.searchURL) {
 
-            this.errors.push("Searchfield cannot be empty");
-            return true;
+            return this.errors.push("Searchfield cannot be empty");
+            
         }
+        
+        
 
         axios({
             method: 'post',
@@ -226,7 +230,7 @@ export default {
     #playliststats h3 {
         font-size: 1.3rem;
     }
-    ul {
+    #cards-view {
         width: 80%;
         display: flex;
         padding: 0px;
@@ -376,7 +380,8 @@ export default {
     #playliststats span {
         font-size: 1.2rem;
     }
-    ul {
+
+    #cards-view {
         
         padding: 0px;
         
