@@ -88,6 +88,7 @@ export default {
   
   methods: {
 
+    // Builds a Feature object and inserts it into the regualar track object for easier handling
     extractFeatures: function (){
         console.log('Inside Features function');
         
@@ -111,19 +112,17 @@ export default {
 
         }
 
-        console.log(this.features);
+        // console.log(this.features);
         
 
     },
 
+    // Calcs the average of an arrays values
     getAverage: function (array) {
         
-        //const total = numbers.reduce((acc, c) => acc + c);
-
         const total = array.reduce((prevValue, currentValue) => 
             prevValue + currentValue);
         return total/array.length;
-        //console.log('Total: ' + total);
 
     },
 
