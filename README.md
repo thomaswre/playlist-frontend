@@ -1,5 +1,7 @@
 # playlist-frontend
 
+![](https://github.com/thomaswre/output.gif)
+
 ## Project setup
 ```
 npm install
