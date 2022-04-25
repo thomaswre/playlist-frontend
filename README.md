@@ -1,6 +1,6 @@
 # playlist-frontend
 
-![](https://github.com/thomaswre/output.gif)
+![](output.gif)
 
 ## Project setup
 ```
