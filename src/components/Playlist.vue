@@ -11,11 +11,11 @@
 
         </form>
 
-        <p v-if="errors.length">
+        <div v-if="errors.length">
             <ul>
                 <li v-for="error in errors" :key="error" class="searchError">{{ error }}</li>
             </ul>
-        </p>
+        </div>
 
         <p v-if="data.failed">
             <span v-html="data.failed" id="failed" class="searchError"></span>
@@ -26,10 +26,6 @@
                 <h2>Track Averages</h2>
                 
                 <span>Popularity: {{Math.round(getAverage(this.features.popularity))}}%</span>
-                <span>Danceability: {{Math.round(getAverage(this.features.danceability)*100)}}%</span>
-                <span>Energy: {{Math.round(getAverage(this.features.energy)*100)}}%</span>
-                <span>Valence: {{Math.round(getAverage(this.features.valence)*100)}}%</span>
-                <span>BPM: {{Math.round(getAverage(this.features.tempo))}}</span>
             </div>
             
             <ul id="cards-view">
@@ -42,18 +38,11 @@
                         <div class="poplabel" key="1">Popularity: {{track.track.popularity}}%</div>
                         <div class="feature pop" key="2" v-bind:style="{ width: track.track.popularity + '%'}"></div>
 
-                        <div key="3">Danceability: {{Math.round(track.features.danceability*100)}}%</div>
-                        <div key="4" class="feature dance" v-bind:style="{ width: track.features.danceability*100 + '%'}"></div>
-
-                        <div key="5">Energy: {{Math.round(track.features.energy*100)}}%</div>
-                        <div key="6" class="feature energy" v-bind:style="{ width: track.features.energy*100 + '%'}"></div>
-                            
-                        <div key="7">Valence: {{Math.round(track.features.valence*100)}}%</div>
-                        <div key="8" class="feature valence" v-bind:style="{ width: (track.features.valence).toFixed(1)*100 + '%'}"></div>
+                       
 
                         
                     </transition-group>
-                    <span class="tempo">BPM: {{(track.features.tempo).toFixed(0)}}</span>
+                    
                 </li>
             </ul>
         </div>

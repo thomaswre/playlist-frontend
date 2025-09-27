@@ -1,1 +1,29 @@
-{"name":"playlist-frontend","description":"A frontend in Vue3 for the playlist-analyzer backend","main":"main.js","dependencies":{"@vue/cli":"^5.0.8","axios":"^0.21.4","core-js":"^3.26.1"},"devDependencies":{"vue":"^3.2.45"},"scripts":{"test":"echo \"Error: no test specified\" && exit 1","serve":"vue-cli-service serve","build":"vue-cli-service build"},"repository":{"type":"git","url":"git+https://github.com/thomaswre/playlist-frontend.git"},"author":"","license":"ISC","bugs":{"url":"https://github.com/thomaswre/playlist-frontend/issues"},"homepage":"https://github.com/thomaswre/playlist-frontend#readme"}
+{
+  "name": "playlist-frontend",
+  "description": "A frontend in Vue3 for the playlist-analyzer backend",
+  "main": "main.js",
+  "dependencies": {
+    "axios": "^1.12.2",
+    "core-js": "^3.26.1",
+    "vue": "^3.5.0"
+  },
+  "devDependencies": {
+    "@vue/cli": "^5.0.8",
+    "@vue/cli-service": "^5.0.8"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thomaswre/playlist-frontend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thomaswre/playlist-frontend/issues"
+  },
+  "homepage": "https://github.com/thomaswre/playlist-frontend#readme"
+}
