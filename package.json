@@ -3,18 +3,16 @@
   "description": "A frontend in Vue3 for the playlist-analyzer backend",
   "main": "main.js",
   "dependencies": {
+    "@vitejs/plugin-vue": "^6.0.1",
     "axios": "^1.12.2",
-    "core-js": "^3.26.1",
+    "vite": "^7.1.7",
     "vue": "^3.5.0"
-  },
-  "devDependencies": {
-    "@vue/cli": "^5.0.8",
-    "@vue/cli-service": "^5.0.8"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
   },
   "repository": {
     "type": "git",
